@@ -351,7 +351,7 @@ int main() {
         {"RadixSort", radix_sort}
     };
 
-    std::string archivo_txt = "ResultadosPython.txt";
+    std::string archivo_txt = "ResultadosC++.txt";
     std::ofstream f(archivo_txt);
     if (f.is_open()) {
         f << "Tamano\tAlgoritmo\tEstado\tTiempoMs\tComparaciones\tIntercambios\n";
