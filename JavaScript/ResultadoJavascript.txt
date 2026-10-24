@@ -1,0 +1,114 @@
+========================================================================================
+              REPORTE DE BENCHMARK SIN RESTRICCIONES - JAVASCRIPT (9 ALGORITMOS)          
+========================================================================================
+
+Lenguaje     | Algoritmo    | Tamaño     | Estado       | Tiempo (ms)     | Comparaciones   | Intercambios   
+---------------------------------------------------------------------------------------------------------
+JavaScript   | Burbuja      | 100        | Aleatorio    | 1.7563          | 4935            | 2678           
+JavaScript   | HeapSort     | 100        | Aleatorio    | 0.6604          | 1042            | 582            
+JavaScript   | Insercion    | 100        | Aleatorio    | 1.0918          | 2777            | 2678           
+JavaScript   | MergeSort    | 100        | Aleatorio    | 0.7312          | 534             | 672            
+JavaScript   | QuickSort    | 100        | Aleatorio    | 0.5833          | 619             | 320            
+JavaScript   | Seleccion    | 100        | Aleatorio    | 2.5545          | 4950            | 94             
+JavaScript   | ShellSort    | 100        | Aleatorio    | 0.9130          | 839             | 392            
+JavaScript   | BucketSort   | 100        | Aleatorio    | 1.3216          | 63              | 23             
+JavaScript   | RadixSort    | 100        | Aleatorio    | 1.0017          | 0               | 600            
+JavaScript   | Burbuja      | 100        | Ordenado     | 0.0336          | 99              | 0              
+JavaScript   | HeapSort     | 100        | Ordenado     | 0.2379          | 1081            | 640            
+JavaScript   | Insercion    | 100        | Ordenado     | 0.0241          | 99              | 0              
+JavaScript   | MergeSort    | 100        | Ordenado     | 0.3102          | 356             | 672            
+JavaScript   | QuickSort    | 100        | Ordenado     | 1.4680          | 4950            | 5049           
+JavaScript   | Seleccion    | 100        | Ordenado     | 1.1538          | 4950            | 0              
+JavaScript   | ShellSort    | 100        | Ordenado     | 0.1493          | 503             | 0              
+JavaScript   | BucketSort   | 100        | Ordenado     | 0.2215          | 40              | 0              
+JavaScript   | RadixSort    | 100        | Ordenado     | 0.5124          | 0               | 600            
+JavaScript   | Burbuja      | 100        | Inverso      | 1.7792          | 4950            | 4950           
+JavaScript   | HeapSort     | 100        | Inverso      | 0.5065          | 944             | 516            
+JavaScript   | Insercion    | 100        | Inverso      | 1.1547          | 5049            | 4950           
+JavaScript   | MergeSort    | 100        | Inverso      | 0.3474          | 316             | 672            
+JavaScript   | QuickSort    | 100        | Inverso      | 0.8832          | 4950            | 2549           
+JavaScript   | Seleccion    | 100        | Inverso      | 0.5912          | 4950            | 50             
+JavaScript   | ShellSort    | 100        | Inverso      | 0.2559          | 668             | 260            
+JavaScript   | BucketSort   | 100        | Inverso      | 0.2985          | 91              | 51             
+JavaScript   | RadixSort    | 100        | Inverso      | 0.1280          | 0               | 600            
+JavaScript   | Burbuja      | 1000       | Aleatorio    | 71.7329         | 498465          | 252061         
+JavaScript   | HeapSort     | 1000       | Aleatorio    | 2.5372          | 16823           | 9055           
+JavaScript   | Insercion    | 1000       | Aleatorio    | 45.7256         | 253060          | 252061         
+JavaScript   | MergeSort    | 1000       | Aleatorio    | 2.1293          | 8689            | 9976           
+JavaScript   | QuickSort    | 1000       | Aleatorio    | 1.2664          | 10590           | 5712           
+JavaScript   | Seleccion    | 1000       | Aleatorio    | 47.6715         | 499500          | 991            
+JavaScript   | ShellSort    | 1000       | Aleatorio    | 2.0944          | 15325           | 7841           
+JavaScript   | BucketSort   | 1000       | Aleatorio    | 2.0462          | 594             | 231            
+JavaScript   | RadixSort    | 1000       | Aleatorio    | 0.8150          | 0               | 6000           
+JavaScript   | Burbuja      | 1000       | Ordenado     | 0.2750          | 999             | 0              
+JavaScript   | HeapSort     | 1000       | Ordenado     | 3.1267          | 17583           | 9708           
+JavaScript   | Insercion    | 1000       | Ordenado     | 0.1147          | 999             | 0              
+JavaScript   | MergeSort    | 1000       | Ordenado     | 1.7334          | 5044            | 9976           
+JavaScript   | QuickSort    | 1000       | Ordenado     | 90.4426         | 499500          | 500499         
+JavaScript   | Seleccion    | 1000       | Ordenado     | 44.9824         | 499500          | 0              
+JavaScript   | ShellSort    | 1000       | Ordenado     | 1.0099          | 8006            | 0              
+JavaScript   | BucketSort   | 1000       | Ordenado     | 0.8716          | 363             | 0              
+JavaScript   | RadixSort    | 1000       | Ordenado     | 1.0306          | 0               | 6000           
+JavaScript   | Burbuja      | 1000       | Inverso      | 87.1534         | 499500          | 499500         
+JavaScript   | HeapSort     | 1000       | Inverso      | 2.2278          | 15965           | 8316           
+JavaScript   | Insercion    | 1000       | Inverso      | 85.8416         | 500499          | 499500         
+JavaScript   | MergeSort    | 1000       | Inverso      | 1.3467          | 4932            | 9976           
+JavaScript   | QuickSort    | 1000       | Inverso      | 67.8887         | 499500          | 250499         
+JavaScript   | Seleccion    | 1000       | Inverso      | 47.6136         | 499500          | 500            
+JavaScript   | ShellSort    | 1000       | Inverso      | 1.3074          | 11716           | 4700           
+JavaScript   | BucketSort   | 1000       | Inverso      | 1.1966          | 844             | 481            
+JavaScript   | RadixSort    | 1000       | Inverso      | 0.7994          | 0               | 6000           
+JavaScript   | Burbuja      | 10000      | Aleatorio    | 6488.4258       | 49986999        | 25337319       
+JavaScript   | HeapSort     | 10000      | Aleatorio    | 35.0009         | 235204          | 124109         
+JavaScript   | Insercion    | 10000      | Aleatorio    | 4270.0439       | 25347318        | 25337319       
+JavaScript   | MergeSort    | 10000      | Aleatorio    | 29.3523         | 120391          | 133616         
+JavaScript   | QuickSort    | 10000      | Aleatorio    | 20.7584         | 151360          | 80483          
+JavaScript   | Seleccion    | 10000      | Aleatorio    | 4396.9652       | 49995000        | 9988           
+JavaScript   | ShellSort    | 10000      | Aleatorio    | 43.5439         | 264261          | 149372         
+JavaScript   | BucketSort   | 10000      | Aleatorio    | 20.3541         | 6152            | 2468           
+JavaScript   | RadixSort    | 10000      | Aleatorio    | 8.0725          | 0               | 60000          
+JavaScript   | Burbuja      | 10000      | Ordenado     | 0.9705          | 9999            | 0              
+JavaScript   | HeapSort     | 10000      | Ordenado     | 39.2267         | 244490          | 131735         
+JavaScript   | Insercion    | 10000      | Ordenado     | 0.8447          | 9999            | 0              
+JavaScript   | MergeSort    | 10000      | Ordenado     | 19.8022         | 69008           | 133616         
+JavaScript   | QuickSort    | 10000      | Ordenado     | No hecho        | No hecho        | No hecho       
+JavaScript   | Seleccion    | 10000      | Ordenado     | 4341.0020       | 49995000        | 0              
+JavaScript   | ShellSort    | 10000      | Ordenado     | 9.9898          | 120005          | 0              
+JavaScript   | BucketSort   | 10000      | Ordenado     | 5.8848          | 3684            | 0              
+JavaScript   | RadixSort    | 10000      | Ordenado     | 7.3682          | 0               | 60000          
+JavaScript   | Burbuja      | 10000      | Inverso      | 10171.3809      | 49995000        | 49994938       
+JavaScript   | HeapSort     | 10000      | Inverso      | 36.6431         | 226682          | 116712         
+JavaScript   | Insercion    | 10000      | Inverso      | 9472.6258       | 50004937        | 49994938       
+JavaScript   | MergeSort    | 10000      | Inverso      | 21.9565         | 64648           | 133616         
+JavaScript   | QuickSort    | 10000      | Inverso      | No hecho        | No hecho        | No hecho       
+JavaScript   | Seleccion    | 10000      | Inverso      | 4969.9552       | 49995000        | 5025           
+JavaScript   | ShellSort    | 10000      | Inverso      | 20.4645         | 172554          | 62536          
+JavaScript   | BucketSort   | 10000      | Inverso      | 19.8488         | 8569            | 4885           
+JavaScript   | RadixSort    | 10000      | Inverso      | 10.9556         | 0               | 60000          
+JavaScript   | Burbuja      | 100000     | Aleatorio    | 833584.9921     | 4999640709      | 2506486451     
+JavaScript   | HeapSort     | 100000     | Aleatorio    | 584.3345        | 3019742         | 1575019        
+JavaScript   | Insercion    | 100000     | Aleatorio    | 533121.2040     | 2506586450      | 2506486451     
+JavaScript   | MergeSort    | 100000     | Aleatorio    | 375.9822        | 1536531         | 1668928        
+JavaScript   | QuickSort    | 100000     | Aleatorio    | 320.8897        | 2093174         | 1145773        
+JavaScript   | Seleccion    | 100000     | Aleatorio    | 522540.1777     | 4999950000      | 99987          
+JavaScript   | ShellSort    | 100000     | Aleatorio    | 728.1259        | 4229205         | 2779804        
+JavaScript   | BucketSort   | 100000     | Aleatorio    | 118.4186        | 59599           | 22678          
+JavaScript   | RadixSort    | 100000     | Aleatorio    | 273.5093        | 0               | 600000         
+JavaScript   | Burbuja      | 100000     | Ordenado     | 30.5951         | 99999           | 0              
+JavaScript   | HeapSort     | 100000     | Ordenado     | 855.5039        | 3112679         | 1649897        
+JavaScript   | Insercion    | 100000     | Ordenado     | 11.2676         | 99999           | 0              
+JavaScript   | MergeSort    | 100000     | Ordenado     | 362.9180        | 853904          | 1668928        
+JavaScript   | QuickSort    | 100000     | Ordenado     | No hecho        | No hecho        | No hecho       
+JavaScript   | Seleccion    | 100000     | Ordenado     | 782170.3015     | 4999950000      | 0              
+JavaScript   | ShellSort    | 100000     | Ordenado     | 187.6339        | 1500006         | 0              
+JavaScript   | BucketSort   | 100000     | Ordenado     | 66.1134         | 36921           | 0              
+JavaScript   | RadixSort    | 100000     | Ordenado     | 160.4402        | 0               | 600000         
+JavaScript   | Burbuja      | 100000     | Inverso      | 1175574.7858    | 4999950000      | 4999944993     
+JavaScript   | HeapSort     | 100000     | Inverso      | 466.0175        | 2926755         | 1497466        
+JavaScript   | Insercion    | 100000     | Inverso      | 1023399.3099    | 5000044992      | 4999944993     
+JavaScript   | MergeSort    | 100000     | Inverso      | 333.6971        | 818259          | 1668928        
+JavaScript   | QuickSort    | 100000     | Inverso      | No hecho        | No hecho        | No hecho       
+JavaScript   | Seleccion    | 100000     | Inverso      | 513646.0044     | 4999950000      | 52256          
+JavaScript   | ShellSort    | 100000     | Inverso      | 481.7710        | 2241343         | 841318         
+JavaScript   | BucketSort   | 100000     | Inverso      | 99.3493         | 82157           | 45236          
+JavaScript   | RadixSort    | 100000     | Inverso      | 275.8034        | 0               | 600000         

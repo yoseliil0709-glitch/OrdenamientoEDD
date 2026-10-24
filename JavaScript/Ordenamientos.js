@@ -1,341 +1,374 @@
-const fs = require('fs');
-
-function* seededRandom(seed) {
-    let s = seed;
-    while (true) {
-        s = (s * 1103515245 + 12345) % 2147483648;
-        yield s / 2147483648;
+class Metrics {
+    constructor() {
+        this.comp = 0;
+        this.inter = 0;
     }
 }
 
-class BenchmarkOrdenamiento {
-    constructor() {
-        this.comparaciones = 0;
-        this.intercambios = 0;
+function generarArreglo(n) {
+    let seed = 42;
+    function random() {
+        seed = (seed * 16807) % 2147483647;
+        return (seed - 1) / 2147483646;
     }
-
-    reiniciarContadores() {
-        this.comparaciones = 0;
-        this.intercambios = 0;
+    const arr = [];
+    for (let i = 0; i < n; i++) {
+        arr.push(Math.floor(random() * 1000000) + 1);
     }
+    return arr;
+}
 
-    //Ordenamiento Burbuja 1
-    bubbleSort(a) {
-        this.reiniciarContadores();
-        let s = a.length;
-        for (let i = 0; i < s; i++) {
-            let isSwapped = false;
-            for (let j = 0; j < s - i - 1; j++) {
-                this.comparaciones++;
-                if (a[j] > a[j + 1]) {
-                    let temp = a[j];
-                    a[j] = a[j + 1];
-                    a[j + 1] = temp;
-                    this.intercambios++;
-                    isSwapped = true;
-                }
+//Ordenamiento 1 BubbleSort
+function bubbleSort(arr) {
+    const m = new Metrics();
+    const n = arr.length;
+    for (let i = 0; i < n - 1; i++) {
+        let swapped = false;
+        for (let j = 0; j < n - i - 1; j++) {
+            m.comp++;
+            if (arr[j] > arr[j + 1]) {
+                [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+                m.inter++;
+                swapped = true;
             }
-            if (!isSwapped) break;
+        }
+        if (!swapped) break;
+    }
+    return m;
+}
+
+//Ordenamiento 2 SelectionSort
+function selectionSort(arr) {
+    const m = new Metrics();
+    const n = arr.length;
+    for (let i = 0; i < n - 1; i++) {
+        let minIdx = i;
+        for (let j = i + 1; j < n; j++) {
+            m.comp++;
+            if (arr[j] < arr[minIdx]) {
+                minIdx = j;
+            }
+        }
+        if (minIdx !== i) {
+            [arr[minIdx], arr[i]] = [arr[i], arr[minIdx]];
+            m.inter++;
         }
     }
+    return m;
+}
 
-    //Ordenamiento HeapSort 2
-    heapSort(arr) {
-        this.reiniciarContadores();
-        let n = arr.length;
-        for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
-            this._heapify(arr, n, i);
-        }
-        for (let i = n - 1; i > 0; i--) {
-            let temp = arr[0];
-            arr[0] = arr[i];
-            arr[i] = temp;
-            this.intercambios++;
-            this._heapify(arr, i, 0);
-        }
-    }
-
-    _heapify(arr, n, i) {
-        let largest = i;
-        let left = 2 * i + 1;
-        let right = 2 * i + 2;
-
-        if (left < n) {
-            this.comparaciones++;
-            if (arr[left] > arr[largest]) largest = left;
-        }
-        if (right < n) {
-            this.comparaciones++;
-            if (arr[right] > arr[largest]) largest = right;
-        }
-        if (largest !== i) {
-            let temp = arr[i];
-            arr[i] = arr[largest];
-            arr[largest] = temp;
-            this.intercambios++;
-            this._heapify(arr, n, largest);
-        }
-    }
-
-    //Ordenamiento Insercion 3
-    insertionSort(a) {
-        this.reiniciarContadores();
-        for (let i = 1; i < a.length; i++) {
-            let temp = a[i];
-            let j = i - 1;
-            this.comparaciones++;
-            while (j >= 0 && temp < a[j]) {
-                this.comparaciones++;
-                a[j + 1] = a[j];
-                this.intercambios++;
+//Ordenamiento 3 InsertionSort
+function insertionSort(arr) {
+    const m = new Metrics();
+    const n = arr.length;
+    for (let i = 1; i < n; i++) {
+        const key = arr[i];
+        let j = i - 1;
+        while (j >= 0) {
+            m.comp++;
+            if (arr[j] > key) {
+                arr[j + 1] = arr[j];
+                m.inter++;
                 j--;
+            } else {
+                break;
             }
-            a[j + 1] = temp;
+        }
+        arr[j + 1] = key;
+    }
+    return m;
+}
+
+//Ordenamiento 4 QuickSort
+function quickSort(arr) {
+    const m = new Metrics();
+
+    function partition(low, high) {
+        const pivot = arr[high];
+        let i = low - 1;
+        for (let j = low; j < high; j++) {
+            m.comp++;
+            if (arr[j] < pivot) {
+                i++;
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+                m.inter++;
+            }
+        }
+        [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
+        m.inter++;
+        return i + 1;
+    }
+
+    function _quickSort(low, high) {
+        if (low < high) {
+            const pi = partition(low, high);
+            _quickSort(low, pi - 1);
+            _quickSort(pi + 1, high);
         }
     }
 
-    //Ordenamiento MergeSort 4
-    mergeSort(a) {
-        this.reiniciarContadores();
-        this._mergeSortRec(a, 0, a.length - 1);
+    if (arr.length > 1) {
+        _quickSort(0, arr.length - 1);
     }
+    return m;
+}
 
-    _mergeSortRec(a, l, r) {
+//Ordenamiento 5 MergeSort
+function mergeSort(arr) {
+    const m = new Metrics();
+
+    function _mergeSort(l, r) {
         if (l < r) {
-            let m = Math.floor((l + r) / 2);
-            this._mergeSortRec(a, l, m);
-            this._mergeSortRec(a, m + 1, r);
-            this._merge(a, l, m, r);
+            const mid = Math.floor((l + r) / 2);
+            _mergeSort(l, mid);
+            _mergeSort(mid + 1, r);
+            _merge(l, mid, r);
         }
     }
 
-    _merge(a, l, m, r) {
-        let n1 = m - l + 1;
-        let n2 = r - m;
-        let L = new Array(n1);
-        let R = new Array(n2);
-
-        for (let i = 0; i < n1; i++) L[i] = a[l + i];
-        for (let j = 0; j < n2; j++) R[j] = a[m + 1 + j];
-
-        let i = 0, j = 0, k = l;
+    function _merge(l, mid, r) {
+        const n1 = mid - l + 1;
+        const n2 = r - mid;
+        const L = arr.slice(l, mid + 1);
+        const R = arr.slice(mid + 1, r + 1);
+        let i = 0;
+        let j = 0;
+        let k = l;
         while (i < n1 && j < n2) {
-            this.comparaciones++;
+            m.comp++;
             if (L[i] <= R[j]) {
-                a[k] = L[i];
+                arr[k] = L[i];
                 i++;
             } else {
-                a[k] = R[j];
+                arr[k] = R[j];
                 j++;
             }
-            this.intercambios++;
+            m.inter++;
             k++;
         }
         while (i < n1) {
-            a[k] = L[i];
-            i++; k++;
-            this.intercambios++;
+            arr[k] = L[i];
+            i++;
+            k++;
+            m.inter++;
         }
         while (j < n2) {
-            a[k] = R[j];
-            j++; k++;
-            this.intercambios++;
+            arr[k] = R[j];
+            j++;
+            k++;
+            m.inter++;
         }
     }
 
-    //Ordenamiento QuickSort 5
-    quickSort(a) {
-        this.reiniciarContadores();
-        this._qckSortRec(a, 0, a.length - 1);
+    if (arr.length > 1) {
+        _mergeSort(0, arr.length - 1);
     }
+    return m;
+}
 
-    _qckSortRec(a, l, h) {
-        if (l < h) {
-            let pi = this._partition(a, l, h);
-            this._qckSortRec(a, l, pi - 1);
-            this._qckSortRec(a, pi + 1, h);
-        }
-    }
+//Ordenamiento 6 HeapSort
+function heapSort(arr) {
+    const m = new Metrics();
+    const n = arr.length;
 
-    _partition(a, l, h) {
-        let pvt = a[h];
-        let j = l - 1;
-        for (let k = l; k < h; k++) {
-            this.comparaciones++;
-            if (a[k] < pvt) {
-                j++;
-                let temp = a[j];
-                a[j] = a[k];
-                a[k] = temp;
-                this.intercambios++;
+    function heapify(n, i) {
+        let largest = i;
+        const l = 2 * i + 1;
+        const r = 2 * i + 2;
+        if (l < n) {
+            m.comp++;
+            if (arr[l] > arr[largest]) {
+                largest = l;
             }
         }
-        let temp = a[j + 1];
-        a[j + 1] = a[h];
-        a[h] = temp;
-        this.intercambios++;
-        return j + 1;
-    }
-
-    //Ordenamiento Radix 6
-    radixSort(arr) {
-        this.reiniciarContadores();
-        if (arr.length === 0) return;
-        let max1 = Math.max(...arr);
-        let exp = 1;
-        while (Math.floor(max1 / exp) > 0) {
-            this._countingSortRadix(arr, exp);
-            exp *= 10;
+        if (r < n) {
+            m.comp++;
+            if (arr[r] > arr[largest]) {
+                largest = r;
+            }
+        }
+        if (largest !== i) {
+            [arr[i], arr[largest]] = [arr[largest], arr[i]];
+            m.inter++;
+            heapify(n, largest);
         }
     }
 
-    _countingSortRadix(arr, exp) {
-        let s = arr.length;
-        let outputArray = new Array(s).fill(0);
-        let countArray = new Array(10).fill(0);
-
-        for (let j = 0; j < s; j++) {
-            let idx = Math.floor(arr[j] / exp) % 10;
-            countArray[idx]++;
-        }
-        for (let i = 1; i < 10; i++) {
-            countArray[i] += countArray[i - 1];
-        }
-        let j = s - 1;
-        while (j >= 0) {
-            let idx = Math.floor(arr[j] / exp) % 10;
-            outputArray[countArray[idx] - 1] = arr[j];
-            countArray[idx]--;
-            this.intercambios++;
-            j--;
-        }
-        for (let j = 0; j < s; j++) {
-            arr[j] = outputArray[j];
-        }
+    for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+        heapify(n, i);
     }
+    for (let i = n - 1; i > 0; i--) {
+        [arr[0], arr[i]] = [arr[i], arr[0]];
+        m.inter++;
+        heapify(i, 0);
+    }
+    return m;
+}
 
-    //Ordenamiento Seleccion 7
-    selectionSort(a) {
-        this.reiniciarContadores();
-        for (let i = 0; i < a.length; i++) {
-            let small = i;
-            for (let j = i + 1; j < a.length; j++) {
-                this.comparaciones++;
-                if (a[small] > a[j]) {
-                    small = j;
+//Ordenamiento 7 ShellSort
+function shellSort(arr) {
+    const m = new Metrics();
+    const n = arr.length;
+    let gap = Math.floor(n / 2);
+    while (gap > 0) {
+        for (let i = gap; i < n; i++) {
+            const temp = arr[i];
+            let j = i;
+            while (j >= gap) {
+                m.comp++;
+                if (arr[j - gap] > temp) {
+                    arr[j] = arr[j - gap];
+                    m.inter++;
+                    j -= gap;
+                } else {
+                    break;
                 }
             }
-            if (small !== i) {
-                let temp = a[i];
-                a[i] = a[small];
-                a[small] = temp;
-                this.intercambios++;
+            arr[j] = temp;
+        }
+        gap = Math.floor(gap / 2);
+    }
+    return m;
+}
+
+//Ordenamiento 8 BucketSort
+function bucketSort(arr) {
+    const m = new Metrics();
+    if (arr.length <= 1) return m;
+
+    const minVal = Math.min(...arr);
+    const maxVal = Math.max(...arr);
+    const n = arr.length;
+
+    const buckets = Array.from({ length: n }, () => []);
+
+    for (let i = 0; i < n; i++) {
+        m.comp++;
+        let bi;
+        if (maxVal === minVal) {
+            bi = 0;
+        } else {
+            bi = Math.floor((arr[i] - minVal) * (n - 1) / (maxVal - minVal));
+        }
+        buckets[bi].push(arr[i]);
+    }
+
+    for (let b = 0; b < buckets.length; b++) {
+        for (let i = 1; i < buckets[b].length; i++) {
+            const key = buckets[b][i];
+            let j = i - 1;
+            while (j >= 0) {
+                m.comp++;
+                if (buckets[b][j] > key) {
+                    buckets[b][j + 1] = buckets[b][j];
+                    m.inter++;
+                    j--;
+                } else {
+                    break;
+                }
             }
+            buckets[b][j + 1] = key;
         }
     }
 
-    //Ordenamiento ShellSort 8
-    shellSort(imputArr) {
-        this.reiniciarContadores();
-        let size = imputArr.length;
-        let gapSize = Math.floor(size / 2);
-
-        while (gapSize > 0) {
-            for (let j = gapSize; j < size; j++) {
-                let val = imputArr[j];
-                let k = j;
-
-                while (k >= gapSize) {
-                    this.comparaciones++;
-                    if (imputArr[k - gapSize] > val) {
-                        imputArr[k] = imputArr[k - gapSize];
-                        this.intercambios++;
-                        k = k - gapSize;
-                    } else {
-                        break;
-                    }
-                }
-                imputArr[k] = val;
-            }
-            gapSize = Math.floor(gapSize / 2);
+    let idx = 0;
+    for (let b = 0; b < buckets.length; b++) {
+        for (const val of buckets[b]) {
+            arr[idx] = val;
+            m.inter++;
+            idx++;
         }
+    }
+    return m;
+}
+
+//Ordenamiento 9 RadixSort
+function radixSort(arr) {
+    const m = new Metrics();
+    if (arr.length <= 1) return m;
+
+    const maxVal = Math.max(...arr);
+    let exp = 1;
+    while (Math.floor(maxVal / exp) > 0) {
+        _countingSortRadix(arr, exp, m);
+        exp *= 10;
+    }
+    return m;
+}
+
+function _countingSortRadix(arr, exp, m) {
+    const n = arr.length;
+    const output = new Array(n).fill(0);
+    const count = new Array(10).fill(0);
+
+    for (let i = 0; i < n; i++) {
+        m.comp++;
+        const index = Math.floor((arr[i] / exp) % 10);
+        count[index]++;
+    }
+
+    for (let i = 1; i < 10; i++) {
+        count[i] += count[i - 1];
+    }
+
+    let i = n - 1;
+    while (i >= 0) {
+        const index = Math.floor((arr[i] / exp) % 10);
+        output[count[index] - 1] = arr[i];
+        count[index]--;
+        m.inter++;
+        i--;
+    }
+
+    for (let i = 0; i < n; i++) {
+        arr[i] = output[i];
+        m.inter++;
     }
 }
 
-const tamanios = [100];
-const resultados = [];
+function main() {
+    const tamanos = [100, 1000, 10000, 100000];
+    const algoritmos = [
+        ["Burbuja", bubbleSort],
+        ["Seleccion", selectionSort],
+        ["Insercion", insertionSort],
+        ["QuickSort", quickSort],
+        ["MergeSort", mergeSort],
+        ["HeapSort", heapSort],
+        ["ShellSort", shellSort],
+        ["BucketSort", bucketSort],
+        ["RadixSort", radixSort]
+    ];
+    
+    const fs = require("fs");
+    const archivoTxt = "ResultadosJavaScript.txt";
+    let contenido = "Tamano\tAlgoritmo\tEstado\tTiempoMs\tComparaciones\tIntercambios\n";
 
-console.log("=== INICIANDO ORDENAMIENTOS EN JAVASCRIPT ===");
+    for (const n of tamanos) {
+        const original = generarArreglo(n);
 
-for (let tam of tamanios) {
-    const rnd = seededRandom(42);
-    const baseAleatoria = [];
-    for (let i = 0; i < tam; i++) {
-        baseAleatoria.push(Math.floor(rnd.next().value * 1000000));
-    }
+        const estados = [
+            ["Aleatorio", original.slice()],
+            ["Ordenado", original.slice().sort((a, b) => a - b)],
+            ["Inverso", original.slice().sort((a, b) => a - b).reverse()]
+        ];
 
-    const estados = {
-        "Aleatorio": [...baseAleatoria],
-        "Ordenado": [...baseAleatoria].sort((x, y) => x - y),
-        "Inverso": [...baseAleatoria].sort((x, y) => x - y).reverse()
-    };
+        for (const [estado, arrBase] of estados) {
+            for (const [nombre, func] of algoritmos) {
+                const copia = arrBase.slice();
+                const inicio = performance.now();
+                const metrics = func(copia);
+                const fin = performance.now();
+                const tiempoMs = fin - inicio;
 
-    for (let [estado, arrOriginal] of Object.entries(estados)) {
-        const algoritmos = {
-            "Burbuja": (arr) => new BenchmarkOrdenamiento().bubbleSort(arr),
-            "HeapSort": (arr) => new BenchmarkOrdenamiento().heapSort(arr),
-            "Insercion": (arr) => new BenchmarkOrdenamiento().insertionSort(arr),
-            "MergeSort": (arr) => new BenchmarkOrdenamiento().mergeSort(arr),
-            "QuickSort": (arr) => new BenchmarkOrdenamiento().quickSort(arr),
-            "RadixSort": (arr) => new BenchmarkOrdenamiento().radixSort(arr),
-            "Seleccion": (arr) => new BenchmarkOrdenamiento().selectionSort(arr),
-            "ShellSort": (arr) => new BenchmarkOrdenamiento().shellSort(arr)
-        };
-
-        for (let [nombreAlg, funcAlg] of Object.entries(algoritmos)) {
-            
-            if (tam >= 100000 && ["Burbuja", "Seleccion", "Insercion"].includes(nombreAlg)) {
-                console.log(`Omitiendo ${nombreAlg} para tamaño ${tam} (complejidad O(n^2))`);
-                continue;
+                contenido += `${n}\t${nombre}\t${estado}\t${tiempoMs.toFixed(3)}\t${metrics.comp}\t${metrics.inter}\n`;
+                console.log(`Tamaño: ${n} | Algoritmo: ${nombre} | Estado: ${estado} | Tiempo: ${tiempoMs.toFixed(3)} ms`);
             }
-
-            let arrCopia = [...arrOriginal];
-            let tester = new BenchmarkOrdenamiento();
-
-            let inicio = process.hrtime.bigint();
-            
-            if (nombreAlg === "Burbuja") tester.bubbleSort(arrCopia);
-            else if (nombreAlg === "HeapSort") tester.heapSort(arrCopia);
-            else if (nombreAlg === "Insercion") tester.insertionSort(arrCopia);
-            else if (nombreAlg === "MergeSort") tester.mergeSort(arrCopia);
-            else if (nombreAlg === "QuickSort") tester.quickSort(arrCopia);
-            else if (nombreAlg === "RadixSort") tester.radixSort(arrCopia);
-            else if (nombreAlg === "Seleccion") tester.selectionSort(arrCopia);
-            else if (nombreAlg === "ShellSort") tester.shellSort(arrCopia);
-
-            let fin = process.hrtime.bigint();
-            let tiempoMs = Number(fin - inicio) / 1_000_000;
-
-            resultados.push({
-                Lenguaje: "JavaScript",
-                Algoritmo: nombreAlg,
-                Tamano: tam,
-                Estado: estado,
-                TiempoMs: tiempoMs.toFixed(4),
-                Comparaciones: tester.comparaciones,
-                Intercambios: tester.intercambios
-            });
-
-            console.log(`-> Tamaño: ${tam} | Algoritmo: ${nombreAlg} | Estado: ${estado} | Tiempo: ${tiempoMs.toFixed(4)} ms`);
         }
     }
+
+    fs.writeFileSync(archivoTxt, contenido, "utf-8");
+    console.log("Ordenamientos de JavaScript ejecutados correctamente");
 }
 
-// Guardar en Resultado.csv
-let csvContent = "Lenguaje,Algoritmo,Tamano,Estado,TiempoMs,Comparaciones,Intercambios\n";
-resultados.forEach(row => {
-    csvContent += `${row.Lenguaje},${row.Algoritmo},${row.Tamano},${row.Estado},${row.TiempoMs},${row.Comparaciones},${row.Intercambios}\n`;
-});
-
-fs.writeFileSync("Resultado.csv", csvContent, "utf8");
-console.log("\n¡Pruebas de JavaScript finalizadas! Archivo 'Resultado.csv' generado con éxito.");
+main();
