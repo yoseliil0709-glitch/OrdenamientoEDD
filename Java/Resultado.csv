@@ -1,0 +1,136 @@
+Lenguaje,Algoritmo,Tamano,Estado,TiempoMs,Comparaciones,Intercambios
+Java,Burbuja,100,Inverso,0.5359,4950,4950
+Java,HeapSort,100,Inverso,0.1676,944,516
+Java,Insercion,100,Inverso,0.3604,5049,4950
+Java,MergeSort,100,Inverso,0.1421,316,672
+Java,QuickSort,100,Inverso,0.3606,4950,2549
+Java,Seleccion,100,Inverso,0.2664,4950,50
+Java,ShellSort,100,Inverso,0.0677,668,260
+Java,BucketSort,100,Inverso,0.7114,91,51
+Java,HashSort,100,Inverso,1.8851,100,100
+Java,Burbuja,100,Aleatorio,0.6479,4935,2678
+Java,HeapSort,100,Aleatorio,0.0535,1042,582
+Java,Insercion,100,Aleatorio,0.1991,2777,2678
+Java,MergeSort,100,Aleatorio,0.2366,534,672
+Java,QuickSort,100,Aleatorio,0.1787,619,320
+Java,Seleccion,100,Aleatorio,0.7991,4950,94
+Java,ShellSort,100,Aleatorio,0.0794,839,392
+Java,BucketSort,100,Aleatorio,0.2934,63,23
+Java,HashSort,100,Aleatorio,0.5860,100,100
+Java,Burbuja,100,Ordenado,0.0088,99,0
+Java,HeapSort,100,Ordenado,0.0347,1081,640
+Java,Insercion,100,Ordenado,0.0114,99,0
+Java,MergeSort,100,Ordenado,0.0606,356,672
+Java,QuickSort,100,Ordenado,0.0999,4950,5049
+Java,Seleccion,100,Ordenado,0.2706,4950,0
+Java,ShellSort,100,Ordenado,0.0452,503,0
+Java,BucketSort,100,Ordenado,0.1640,40,0
+Java,HashSort,100,Ordenado,0.4989,100,100
+Java,Burbuja,1000,Inverso,13.2941,499500,499500
+Java,HeapSort,1000,Inverso,0.4581,15965,8316
+Java,Insercion,1000,Inverso,11.5266,500499,499500
+Java,MergeSort,1000,Inverso,0.4240,4932,9976
+Java,QuickSort,1000,Inverso,6.0771,499500,250499
+Java,Seleccion,1000,Inverso,16.5087,499500,500
+Java,ShellSort,1000,Inverso,1.2573,11716,4700
+Java,BucketSort,1000,Inverso,1.4294,844,481
+Java,HashSort,1000,Inverso,8.3838,1000,1000
+Java,Burbuja,1000,Aleatorio,36.8066,498465,252061
+Java,HeapSort,1000,Aleatorio,0.4861,16823,9055
+Java,Insercion,1000,Aleatorio,15.1298,253060,252061
+Java,MergeSort,1000,Aleatorio,0.3502,8689,9976
+Java,QuickSort,1000,Aleatorio,0.3812,10590,5712
+Java,Seleccion,1000,Aleatorio,1.6290,499500,991
+Java,ShellSort,1000,Aleatorio,1.4448,15325,7841
+Java,BucketSort,1000,Aleatorio,6.8246,594,231
+Java,HashSort,1000,Aleatorio,3.1090,1000,1000
+Java,Burbuja,1000,Ordenado,0.1339,999,0
+Java,HeapSort,1000,Ordenado,0.3147,17583,9708
+Java,Insercion,1000,Ordenado,0.1557,999,0
+Java,MergeSort,1000,Ordenado,0.9924,5044,9976
+Java,QuickSort,1000,Ordenado,4.3279,499500,500499
+Java,Seleccion,1000,Ordenado,1.8308,499500,0
+Java,ShellSort,1000,Ordenado,0.6388,8006,0
+Java,BucketSort,1000,Ordenado,1.1332,363,0
+Java,HashSort,1000,Ordenado,3.8086,1000,1000
+Java,Burbuja,10000,Inverso,220.2830,49995000,49994938
+Java,HeapSort,10000,Inverso,2.2418,226682,116712
+Java,Insercion,10000,Inverso,179.3360,50004937,49994938
+Java,MergeSort,10000,Inverso,1.5069,64648,133616
+Java,QuickSort,10000,Inverso,137.3603,49846527,24930698
+Java,Seleccion,10000,Inverso,138.0315,49995000,5025
+Java,ShellSort,10000,Inverso,3.6087,172554,62536
+Java,BucketSort,10000,Inverso,13.8574,8569,4885
+Java,HashSort,10000,Inverso,42.4112,10000,10000
+Java,Burbuja,10000,Aleatorio,257.5855,49986999,25337319
+Java,HeapSort,10000,Aleatorio,2.7698,235204,124109
+Java,Insercion,10000,Aleatorio,40.8463,25347318,25337319
+Java,MergeSort,10000,Aleatorio,4.8671,120391,133616
+Java,QuickSort,10000,Aleatorio,1.3756,151360,80483
+Java,Seleccion,10000,Aleatorio,193.0720,49995000,9988
+Java,ShellSort,10000,Aleatorio,3.7886,264261,149372
+Java,BucketSort,10000,Aleatorio,20.8191,6152,2468
+Java,HashSort,10000,Aleatorio,112.5090,10000,10000
+Java,Burbuja,10000,Ordenado,3.3847,9999,0
+Java,HeapSort,10000,Ordenado,16.8231,244490,131735
+Java,Insercion,10000,Ordenado,0.0924,9999,0
+Java,MergeSort,10000,Ordenado,10.6189,69008,133616
+Java,QuickSort,10000,Ordenado,396.5033,49659431,49669306
+Java,Seleccion,10000,Ordenado,261.9238,49995000,0
+Java,ShellSort,10000,Ordenado,0.6409,120005,0
+Java,BucketSort,10000,Ordenado,3.0900,3684,0
+Java,HashSort,10000,Ordenado,38.4966,10000,10000
+Java,Burbuja,100000,Inverso,No hecho,No hecho,No hecho
+Java,HeapSort,100000,Inverso,112.1329,2926755,1497466
+Java,Insercion,100000,Inverso,No hecho,No hecho,No hecho
+Java,MergeSort,100000,Inverso,57.3387,818259,1668928
+Java,QuickSort,100000,Inverso,No hecho,No hecho,No hecho
+Java,Seleccion,100000,Inverso,No hecho,No hecho,No hecho
+Java,ShellSort,100000,Inverso,15.3260,2241343,841318
+Java,BucketSort,100000,Inverso,46.4918,82157,45236
+Java,HashSort,100000,Inverso,212.5465,100000,100000
+Java,Burbuja,100000,Aleatorio,No hecho,No hecho,No hecho
+Java,HeapSort,100000,Aleatorio,121.9334,3019742,1575019
+Java,Insercion,100000,Aleatorio,No hecho,No hecho,No hecho
+Java,MergeSort,100000,Aleatorio,143.3731,1536531,1668928
+Java,QuickSort,100000,Aleatorio,37.6678,2093174,1145773
+Java,Seleccion,100000,Aleatorio,No hecho,No hecho,No hecho
+Java,ShellSort,100000,Aleatorio,77.3891,4229205,2779804
+Java,BucketSort,100000,Aleatorio,61.8314,59599,22678
+Java,HashSort,100000,Aleatorio,288.7026,100000,100000
+Java,Burbuja,100000,Ordenado,No hecho,No hecho,No hecho
+Java,HeapSort,100000,Ordenado,52.6121,3112679,1649897
+Java,Insercion,100000,Ordenado,No hecho,No hecho,No hecho
+Java,MergeSort,100000,Ordenado,61.4480,853904,1668928
+Java,QuickSort,100000,Ordenado,No hecho,No hecho,No hecho
+Java,Seleccion,100000,Ordenado,No hecho,No hecho,No hecho
+Java,ShellSort,100000,Ordenado,5.2662,1500006,0
+Java,BucketSort,100000,Ordenado,12.2106,36921,0
+Java,HashSort,100000,Ordenado,36.1493,100000,100000
+Java,Burbuja,1000000,Inverso,No hecho,No hecho,No hecho
+Java,HeapSort,1000000,Inverso,265.2728,36001165,18333003
+Java,Insercion,1000000,Inverso,No hecho,No hecho,No hecho
+Java,MergeSort,1000000,Inverso,407.8619,10106723,19951424
+Java,QuickSort,1000000,Inverso,No hecho,No hecho,No hecho
+Java,Seleccion,1000000,Inverso,No hecho,No hecho,No hecho
+Java,ShellSort,1000000,Inverso,111.1235,26248626,9248600
+Java,BucketSort,1000000,Inverso,476.6332,367881,0
+Java,HashSort,1000000,Inverso,648.4572,1000000,1000000
+Java,Burbuja,1000000,Aleatorio,No hecho,No hecho,No hecho
+Java,HeapSort,1000000,Aleatorio,1175.0819,36793724,19047939
+Java,Insercion,1000000,Aleatorio,No hecho,No hecho,No hecho
+Java,MergeSort,1000000,Aleatorio,653.3857,18674344,19951424
+Java,QuickSort,1000000,Aleatorio,295.2824,25230136,12206259
+Java,Seleccion,1000000,Aleatorio,No hecho,No hecho,No hecho
+Java,ShellSort,1000000,Aleatorio,436.7844,67872866,50375403
+Java,BucketSort,1000000,Aleatorio,725.5737,367881,0
+Java,HashSort,1000000,Aleatorio,934.1813,1000000,1000000
+Java,Burbuja,1000000,Ordenado,No hecho,No hecho,No hecho
+Java,HeapSort,1000000,Ordenado,643.8725,37722303,19770582
+Java,Insercion,1000000,Ordenado,No hecho,No hecho,No hecho
+Java,MergeSort,1000000,Ordenado,552.7678,10066432,19951424
+Java,QuickSort,1000000,Ordenado,No hecho,No hecho,No hecho
+Java,Seleccion,1000000,Ordenado,No hecho,No hecho,No hecho
+Java,ShellSort,1000000,Ordenado,91.7651,18000007,0
+Java,BucketSort,1000000,Ordenado,464.1878,367881,0
+Java,HashSort,1000000,Ordenado,552.8140,1000000,1000000

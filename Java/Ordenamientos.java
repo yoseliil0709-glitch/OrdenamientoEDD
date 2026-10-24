@@ -1,329 +1,386 @@
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.Random;
+import java.io.*;
+import java.util.*;
 
 public class Ordenamientos {
-    long comparaciones = 0;
-    long intercambios = 0;
 
-    void reiniciarContadores() {
-        comparaciones = 0;
-        intercambios = 0;
+    static class Metrics {
+        long comp = 0;
+        long inter = 0;
     }
 
-    //Ordenamiento Burbuja 1
-    public void bubbleSort(int[] a) {
-        reiniciarContadores();
-        int s = a.length;
-        for (int i = 0; i < s; i++) {
-            boolean isSwapped = false;
-            for (int j = 0; j < s - i - 1; j++) {
-                comparaciones++;
-                if (a[j] > a[j + 1]) {
-                    int temp = a[j];
-                    a[j] = a[j + 1];
-                    a[j + 1] = temp;
-                    intercambios++;
-                    isSwapped = true;
+    interface SortFunction {
+        Metrics sort(int[] arr);
+    }
+
+    static Random rng = new Random(42);
+
+    static int[] generarArreglo(int n) {
+        rng.setSeed(42);
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = rng.nextInt(1000000) + 1;
+        }
+        return arr;
+    }
+
+    //Ordenamiento 1 BubbleSort
+    static Metrics bubbleSort(int[] arr) {
+        Metrics m = new Metrics();
+        int n = arr.length;
+        for (int i = 0; i < n - 1; i++) {
+            boolean swapped = false;
+            for (int j = 0; j < n - i - 1; j++) {
+                m.comp++;
+                if (arr[j] > arr[j + 1]) {
+                    int tmp = arr[j]; arr[j] = arr[j + 1]; arr[j + 1] = tmp;
+                    m.inter++;
+                    swapped = true;
                 }
             }
-            if (!isSwapped) break;
+            if (!swapped) break;
         }
+        return m;
     }
 
-    //Ordenamiento HeapSort 2
-    public void heapSort(int[] arr) {
-        reiniciarContadores();
+    //Ordenamiento 2 SelectionSort
+    static Metrics selectionSort(int[] arr) {
+        Metrics m = new Metrics();
         int n = arr.length;
-        for (int i = n / 2 - 1; i >= 0; i--) {
-            heapify(arr, n, i);
-        }
-        for (int i = n - 1; i > 0; i--) {
-            int temp = arr[0];
-            arr[0] = arr[i];
-            arr[i] = temp;
-            intercambios++;
-            heapify(arr, i, 0);
-        }
-    }
-
-    void heapify(int[] arr, int n, int i) {
-        int largest = i;
-        int left = 2 * i + 1;
-        int right = 2 * i + 2;
-
-        if (left < n) {
-            comparaciones++;
-            if (arr[left] > arr[largest]) largest = left;
-        }
-        if (right < n) {
-            comparaciones++;
-            if (arr[right] > arr[largest]) largest = right;
-        }
-        if (largest != i) {
-            int temp = arr[i];
-            arr[i] = arr[largest];
-            arr[largest] = temp;
-            intercambios++;
-            heapify(arr, n, largest);
-        }
-    }
-
-    //Ordenamiento Insercion 3
-    public void insertionSort(int[] a) {
-        reiniciarContadores();
-        for (int i = 1; i < a.length; i++) {
-            int temp = a[i];
-            int j = i - 1;
-            comparaciones++;
-            while (j >= 0 && temp < a[j]) {
-                comparaciones++;
-                a[j + 1] = a[j];
-                intercambios++;
-                j--;
+        for (int i = 0; i < n - 1; i++) {
+            int minIdx = i;
+            for (int j = i + 1; j < n; j++) {
+                m.comp++;
+                if (arr[j] < arr[minIdx]) {
+                    minIdx = j;
+                }
             }
-            a[j + 1] = temp;
+            if (minIdx != i) {
+                int tmp = arr[minIdx]; arr[minIdx] = arr[i]; arr[i] = tmp;
+                m.inter++;
+            }
+        }
+        return m;
+    }
+
+    //Ordenamiento 3 InsertionSort
+    static Metrics insertionSort(int[] arr) {
+        Metrics m = new Metrics();
+        int n = arr.length;
+        for (int i = 1; i < n; i++) {
+            int key = arr[i];
+            int j = i - 1;
+            while (j >= 0) {
+                m.comp++;
+                if (arr[j] > key) {
+                    arr[j + 1] = arr[j];
+                    m.inter++;
+                    j--;
+                } else {
+                    break;
+                }
+            }
+            arr[j + 1] = key;
+        }
+        return m;
+    }
+
+    //Ordenamiento 4 QuickSort
+    static Metrics quickSort(int[] arr) {
+        Metrics m = new Metrics();
+        _quickSort(arr, 0, arr.length - 1, m);
+        return m;
+    }
+
+    static void _quickSort(int[] arr, int low, int high, Metrics m) {
+        if (low < high) {
+            int pi = partition(arr, low, high, m);
+            _quickSort(arr, low, pi - 1, m);
+            _quickSort(arr, pi + 1, high, m);
         }
     }
 
-    //Ordenamiento MergeSort 4
-    public void mergeSort(int[] a) {
-        reiniciarContadores();
-        mergeSortRec(a, 0, a.length - 1);
+    static int partition(int[] arr, int low, int high, Metrics m) {
+        int pivot = arr[high];
+        int i = low - 1;
+        for (int j = low; j < high; j++) {
+            m.comp++;
+            if (arr[j] < pivot) {
+                i++;
+                int tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+                m.inter++;
+            }
+        }
+        int tmp = arr[i + 1]; arr[i + 1] = arr[high]; arr[high] = tmp;
+        m.inter++;
+        return i + 1;
     }
 
-    void mergeSortRec(int[] a, int l, int r) {
+    //Ordenamiento 5 MergeSort
+    static Metrics mergeSort(int[] arr) {
+        Metrics m = new Metrics();
+        _mergeSort(arr, 0, arr.length - 1, m);
+        return m;
+    }
+
+    static void _mergeSort(int[] arr, int l, int r, Metrics m) {
         if (l < r) {
-            int m = (l + r) / 2;
-            mergeSortRec(a, l, m);
-            mergeSortRec(a, m + 1, r);
-            merge(a, l, m, r);
+            int mid = (l + r) / 2;
+            _mergeSort(arr, l, mid, m);
+            _mergeSort(arr, mid + 1, r, m);
+            _merge(arr, l, mid, r, m);
         }
     }
 
-    void merge(int[] a, int l, int m, int r) {
-        int n1 = m - l + 1;
-        int n2 = r - m;
-        int[] L = new int[n1];
-        int[] R = new int[n2];
-
-        for (int i = 0; i < n1; i++) L[i] = a[l + i];
-        for (int j = 0; j < n2; j++) R[j] = a[m + 1 + j];
-
+    static void _merge(int[] arr, int l, int mid, int r, Metrics m) {
+        int n1 = mid - l + 1;
+        int n2 = r - mid;
+        int[] L = Arrays.copyOfRange(arr, l, mid + 1);
+        int[] R = Arrays.copyOfRange(arr, mid + 1, r + 1);
         int i = 0, j = 0, k = l;
         while (i < n1 && j < n2) {
-            comparaciones++;
+            m.comp++;
             if (L[i] <= R[j]) {
-                a[k] = L[i];
+                arr[k] = L[i];
                 i++;
             } else {
-                a[k] = R[j];
+                arr[k] = R[j];
                 j++;
             }
-            intercambios++;
+            m.inter++;
             k++;
         }
         while (i < n1) {
-            a[k] = L[i];
-            i++; k++;
-            intercambios++;
+            arr[k] = L[i];
+            i++;
+            k++;
+            m.inter++;
         }
         while (j < n2) {
-            a[k] = R[j];
-            j++; k++;
-            intercambios++;
+            arr[k] = R[j];
+            j++;
+            k++;
+            m.inter++;
         }
     }
 
-    //Ordenamiento QuickSort 5
-    public void quickSort(int[] a) {
-        reiniciarContadores();
-        qckSortRec(a, 0, a.length - 1);
+    //Ordenamiento 6 HeapSort
+    static Metrics heapSort(int[] arr) {
+        Metrics m = new Metrics();
+        int n = arr.length;
+        for (int i = n / 2 - 1; i >= 0; i--) {
+            heapify(arr, n, i, m);
+        }
+        for (int i = n - 1; i > 0; i--) {
+            int tmp = arr[0]; arr[0] = arr[i]; arr[i] = tmp;
+            m.inter++;
+            heapify(arr, i, 0, m);
+        }
+        return m;
     }
 
-    void qckSortRec(int[] a, int l, int h) {
-        if (l < h) {
-            int pi = partition(a, l, h);
-            qckSortRec(a, l, pi - 1);
-            qckSortRec(a, pi + 1, h);
+    static void heapify(int[] arr, int n, int i, Metrics m) {
+        int largest = i;
+        int l = 2 * i + 1;
+        int r = 2 * i + 2;
+        if (l < n) {
+            m.comp++;
+            if (arr[l] > arr[largest]) largest = l;
         }
-    }
-
-    int partition(int[] a, int l, int h) {
-        int pvt = a[h];
-        int j = l - 1;
-        for (int k = l; k < h; k++) {
-            comparaciones++;
-            if (a[k] < pvt) {
-                j++;
-                int temp = a[j];
-                a[j] = a[k];
-                a[k] = temp;
-                intercambios++;
-            }
+        if (r < n) {
+            m.comp++;
+            if (arr[r] > arr[largest]) largest = r;
         }
-        int temp = a[j + 1];
-        a[j + 1] = a[h];
-        a[h] = temp;
-        intercambios++;
-        return j + 1;
-    }
-
-    //Ordenamiento Radix 6
-    public void radixSort(int[] arr) {
-        reiniciarContadores();
-        if (arr.length == 0) return;
-        int max = arr[0];
-        for (int i = 1; i < arr.length; i++) {
-            if (arr[i] > max) max = arr[i];
-        }
-        for (int exp = 1; max / exp > 0; exp *= 10) {
-            countingSortRadix(arr, exp);
+        if (largest != i) {
+            int tmp = arr[i]; arr[i] = arr[largest]; arr[largest] = tmp;
+            m.inter++;
+            heapify(arr, n, largest, m);
         }
     }
 
-    void countingSortRadix(int[] arr, int exp) {
-        int s = arr.length;
-        int[] outputArray = new int[s];
-        int[] countArray = new int[10];
-
-        for (int j = 0; j < s; j++) {
-            int idx = (arr[j] / exp) % 10;
-            countArray[idx]++;
-        }
-        for (int i = 1; i < 10; i++) {
-            countArray[i] += countArray[i - 1];
-        }
-        int j = s - 1;
-        while (j >= 0) {
-            int idx = (arr[j] / exp) % 10;
-            outputArray[countArray[idx] - 1] = arr[j];
-            countArray[idx]--;
-            intercambios++;
-            j--;
-        }
-        for (int k = 0; k < s; k++) {
-            arr[k] = outputArray[k];
-        }
-    }
-
-    //Ordenamiento por Seleccion 7
-    public void selectionSort(int[] a) {
-        reiniciarContadores();
-        for (int i = 0; i < a.length; i++) {
-            int small = i;
-            for (int j = i + 1; j < a.length; j++) {
-                comparaciones++;
-                if (a[small] > a[j]) {
-                    small = j;
-                }
-            }
-            if (small != i) {
-                int temp = a[i];
-                a[i] = a[small];
-                a[small] = temp;
-                intercambios++;
-            }
-        }
-    }
-
-    //Ordenamiento ShellSort 8
-    public void shellSort(int[] imputArr) {
-        reiniciarContadores();
-        int size = imputArr.length;
-        int gapSize = size / 2;
-
-        while (gapSize > 0) {
-            for (int j = gapSize; j < size; j++) {
-                int val = imputArr[j];
-                int k = j;
-
-                while (k >= gapSize) {
-                    comparaciones++;
-                    if (imputArr[k - gapSize] > val) {
-                        imputArr[k] = imputArr[k - gapSize];
-                        intercambios++;
-                        k = k - gapSize;
+    //Ordenamiento 7 ShellSort
+    static Metrics shellSort(int[] arr) {
+        Metrics m = new Metrics();
+        int n = arr.length;
+        int gap = n / 2;
+        while (gap > 0) {
+            for (int i = gap; i < n; i++) {
+                int temp = arr[i];
+                int j = i;
+                while (j >= gap) {
+                    m.comp++;
+                    if (arr[j - gap] > temp) {
+                        arr[j] = arr[j - gap];
+                        m.inter++;
+                        j -= gap;
                     } else {
                         break;
                     }
                 }
-                imputArr[k] = val;
+                arr[j] = temp;
             }
-            gapSize = gapSize / 2;
+            gap /= 2;
         }
+        return m;
     }
 
-    public static void main(String[] args) {
-        int[] tamanios = {100};
-        
-        try (PrintWriter pw = new PrintWriter(new FileWriter("Resultados.csv"))) {
-            pw.println("Lenguaje,Algoritmo,Tamano,Estado,TiempoMs,Comparaciones,Intercambios");
+    //Ordenamiento 8 BucketSort
+    static Metrics bucketSort(int[] arr) {
+        Metrics m = new Metrics();
+        if (arr.length <= 1) return m;
 
-            System.out.println("=== INICIANDO BENCHMARKING EN JAVA ===");
+        int minVal = Arrays.stream(arr).min().getAsInt();
+        int maxVal = Arrays.stream(arr).max().getAsInt();
+        int n = arr.length;
 
-            for (int tam : tamanios) {
-                Random rand = new Random(42);
-                int[] baseAleatoria = new int[tam];
-                for (int i = 0; i < tam; i++) {
-                    baseAleatoria[i] = rand.nextInt(1000001);
-                }
+        List<List<Integer>> buckets = new ArrayList<>();
+        for (int i = 0; i < n; i++) buckets.add(new ArrayList<>());
 
-                //Los 3 vectores
-                int[] aleatorio = baseAleatoria.clone();
-                
-                int[] ordenado = baseAleatoria.clone();
-                Arrays.sort(ordenado);
-                
-                int[] inverso = ordenado.clone();
-                for (int i = 0; i < inverso.length / 2; i++) {
-                    int temp = inverso[i];
-                    inverso[i] = inverso[inverso.length - 1 - i];
-                    inverso[inverso.length - 1 - i] = temp;
-                }
+        for (int i = 0; i < n; i++) {
+            m.comp++;
+            int bi;
+            if (maxVal == minVal) {
+                bi = 0;
+            } else {
+                bi = (int) ((long)(arr[i] - minVal) * (n - 1) / (maxVal - minVal));
+            }
+            buckets.get(bi).add(arr[i]);
+        }
 
-                String[] nombres = {"Burbuja", "HeapSort", "Insercion", "MergeSort", "QuickSort", "RadixSort", "Seleccion", "ShellSort"};
-
-                for (String nombreAlg : nombres) {
-                    if (tam >= 100000 && (nombreAlg.equals("Burbuja") || nombreAlg.equals("Seleccion") || nombreAlg.equals("Insercion"))) {
-                        System.out.println("Omitiendo " + nombreAlg + " para tamaño " + tam + " (complejidad O(n^2))");
-                        continue;
+        for (List<Integer> b : buckets) {
+            for (int i = 1; i < b.size(); i++) {
+                int key = b.get(i);
+                int j = i - 1;
+                while (j >= 0) {
+                    m.comp++;
+                    if (b.get(j) > key) {
+                        b.set(j + 1, b.get(j));
+                        m.inter++;
+                        j--;
+                    } else {
+                        break;
                     }
-
-                    probarAlgoritmo(pw, "Aleatorio", aleatorio, nombreAlg, tam);
-                    probarAlgoritmo(pw, "Ordenado", ordenado, nombreAlg, tam);
-                    probarAlgoritmo(pw, "Inverso", inverso, nombreAlg, tam);
                 }
+                b.set(j + 1, key);
             }
-            System.out.println("\n¡Pruebas de Java finalizadas! Archivo 'Resultados.csv' generado con éxito.");
-        } catch (IOException e) {
-            e.printStackTrace();
+        }
+
+        int idx = 0;
+        for (List<Integer> b : buckets) {
+            for (int val : b) {
+                arr[idx] = val;
+                m.inter++;
+                idx++;
+            }
+        }
+        return m;
+    }
+
+    //Ordenamiento 9 RadixSort
+    static Metrics radixSort(int[] arr) {
+        Metrics m = new Metrics();
+        if (arr.length <= 1) return m;
+
+        int maxVal = Arrays.stream(arr).max().getAsInt();
+        int exp = 1;
+        while (maxVal / exp > 0) {
+            countingSortRadix(arr, exp, m);
+            exp *= 10;
+        }
+        return m;
+    }
+
+    static void countingSortRadix(int[] arr, int exp, Metrics m) {
+        int n = arr.length;
+        int[] output = new int[n];
+        int[] count = new int[10];
+
+        for (int i = 0; i < n; i++) {
+            m.comp++;
+            int index = (arr[i] / exp) % 10;
+            count[index]++;
+        }
+
+        for (int i = 1; i < 10; i++) {
+            count[i] += count[i - 1];
+        }
+
+        int i = n - 1;
+        while (i >= 0) {
+            int index = (arr[i] / exp) % 10;
+            output[count[index] - 1] = arr[i];
+            count[index]--;
+            m.inter++;
+            i--;
+        }
+
+        for (i = 0; i < n; i++) {
+            arr[i] = output[i];
+            m.inter++;
         }
     }
 
-    private static void probarAlgoritmo(PrintWriter pw, String estado, int[] original, String nombreAlg, int tam) {
-        int[] arrCopia = original.clone();
-        Ordenamientos sorter = new Ordenamientos();
+    public static void main(String[] args) throws IOException {
+        int[] tamanos = {100, 1000, 10000, 100000};
 
-        long inicio = System.nanoTime();
+        String[] nombres = {"Burbuja", "Seleccion", "Insercion", "QuickSort",
+                            "MergeSort", "HeapSort", "ShellSort", "BucketSort", "RadixSort"};
+        SortFunction[] funciones = {
+            Ordenamientos::bubbleSort,
+            Ordenamientos::selectionSort,
+            Ordenamientos::insertionSort,
+            Ordenamientos::quickSort,
+            Ordenamientos::mergeSort,
+            Ordenamientos::heapSort,
+            Ordenamientos::shellSort,
+            Ordenamientos::bucketSort,
+            Ordenamientos::radixSort
+        };
 
-        switch (nombreAlg) {
-            case "Burbuja": sorter.bubbleSort(arrCopia); break;
-            case "HeapSort": sorter.heapSort(arrCopia); break;
-            case "Insercion": sorter.insertionSort(arrCopia); break;
-            case "MergeSort": sorter.mergeSort(arrCopia); break;
-            case "QuickSort": sorter.quickSort(arrCopia); break;
-            case "RadixSort": sorter.radixSort(arrCopia); break;
-            case "Seleccion": sorter.selectionSort(arrCopia); break;
-            case "ShellSort": sorter.shellSort(arrCopia); break;
+        String archivoTxt = "ResultadosJava.txt";
+        try (PrintWriter f = new PrintWriter(new OutputStreamWriter(
+                new FileOutputStream(archivoTxt), "UTF-8"))) {
+
+            f.println("Tamano\tAlgoritmo\tEstado\tTiempoMs\tComparaciones\tIntercambios");
+
+            for (int n : tamanos) {
+                int[] original = generarArreglo(n);
+
+                int[] aleatorio = original.clone();
+
+                int[] ordenado = original.clone();
+                Arrays.sort(ordenado);
+
+                int[] inverso = ordenado.clone();
+                for (int a = 0, b = inverso.length - 1; a < b; a++, b--) {
+                    int tmp = inverso[a]; inverso[a] = inverso[b]; inverso[b] = tmp;
+                }
+
+                String[] estados = {"Aleatorio", "Ordenado", "Inverso"};
+                int[][] arraysBase = {aleatorio, ordenado, inverso};
+
+                for (int e = 0; e < estados.length; e++) {
+                    String estado = estados[e];
+                    int[] arrBase = arraysBase[e];
+
+                    for (int algo = 0; algo < funciones.length; algo++) {
+                        String nombre = nombres[algo];
+                        SortFunction func = funciones[algo];
+
+                        int[] copia = arrBase.clone();
+                        long inicio = System.nanoTime();
+                        Metrics metrics = func.sort(copia);
+                        long fin = System.nanoTime();
+                        double tiempoMs = (fin - inicio) / 1_000_000.0;
+
+                        String linea = String.format("%d\t%s\t%s\t%.3f\t%d\t%d",
+                                n, nombre, estado, tiempoMs, metrics.comp, metrics.inter);
+                        f.println(linea);
+                        System.out.printf("Tamaño: %d | Algoritmo: %s | Estado: %s | Tiempo: %.3f ms%n",
+                                n, nombre, estado, tiempoMs);
+                    }
+                }
+            }
         }
-
-        long fin = System.nanoTime();
-        double tiempoMs = (fin - inicio) / 1_000_000.0;
-
-        pw.printf("Java,%s,%d,%s,%.4f,%d,%d\n", nombreAlg, tam, estado, tiempoMs, sorter.comparaciones, sorter.intercambios);
-        System.out.printf("-> Tamaño: %d | Algoritmo: %s | Estado: %s | Tiempo: %.4f ms\n", tam, nombreAlg, estado, tiempoMs);
+        System.out.println("Ordenamientos de Java ejecutados correctamente");
     }
 }
