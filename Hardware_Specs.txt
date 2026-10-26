@@ -1,0 +1,5 @@
+=== ESPECIFICACIONES DE HARDWARE DEL BENCHMARK ===
+Sistema Operativo: Windows 11
+Arquitectura: AMD64
+Procesador: Intel64 Family 6 Model 122 Stepping 8, GenuineIntel
+Python Versión: 3.14.7
