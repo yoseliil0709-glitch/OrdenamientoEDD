@@ -46,17 +46,17 @@ def leer_archivo(ruta):
         if len(partes) >= 6:
             try:
                 registro = {
-                    'tamaño': int(partes[0]),
+                    'tamano': int(partes[0]),
                     'algoritmo': partes[1],
                     'estado': partes[2],
-                    'tiempoenms': float(partes[3]),
+                    'tiempo_ms': float(partes[3]),
                     'comparaciones': int(partes[4]),
                     'intercambios': int(partes[5])
                 }
                 datos.append(registro)
-                print(f"  Archivo: {ruta} | Lineas leidas: {len(datos)} | Headers: {partes[:6]}")
+            except (ValueError, IndexError):
                 continue
-    
+
     return datos
 
 
@@ -80,8 +80,8 @@ def generar_reporte_lenguaje(lenguaje, datos, archivo_salida):
         f.write(f"{'Lenguaje':<12}| {'Algoritmo':<12}| {'Tamaño':<8}| {'Estado':<10}| {'Tiempo(ms)':<12}| {'Comparac.':<12}| {'Intercambio':<12}\n")
         f.write("-" * 90 + "\n")
         
-        for reg in sorted(datos, key=lambda x: (x['tamano'], x['estado'], x['tiempoenms'])):
-            f.write(f"{reg['tamano']:<12}| {reg['algoritmo']:<12}| {reg['estado']:<10}| {reg['tiempoenms']:<12.4f}| {reg['comparaciones']:<12}| {reg['intercambios']:<12}\n")
+        for reg in sorted(datos, key=lambda x: (x['tamano'], x['estado'], x['tiempo_ms'])):
+            f.write(f"{reg['tamano']:<12}| {reg['algoritmo']:<12}| {reg['estado']:<10}| {reg['tiempo_ms']:<12.4f}| {reg['comparaciones']:<12}| {reg['intercambios']:<12}\n")
         
         f.write("Algoritmo mas rapido por tamaño y estado\n")
         
@@ -89,14 +89,14 @@ def generar_reporte_lenguaje(lenguaje, datos, archivo_salida):
             for estado in ESTADOS:
                 filtrados = [d for d in datos if d['tamano'] == tam and d['estado'] == estado]
                 if filtrados:
-                    mas_rapido = min(filtrados, key=lambda x: x['tiempoenms'])
-                    f.write(f"Tamaño {tam:>7}, Estado {estado:<10} → Más rápido: {mas_rapido['algoritmo']} ({mas_rapido['tiempoenms']:.4f} ms)\n")
+                    mas_rapido = min(filtrados, key=lambda x: x['tiempo_ms'])
+                    f.write(f"Tamaño {tam:>7}, Estado {estado:<10} → Más rápido: {mas_rapido['algoritmo']} ({mas_rapido['tiempo_ms']:.4f} ms)\n")
    
         f.write("Menor tiempo promedio total\n")
         
         tiempos_alg = defaultdict(list)
         for reg in datos:
-            tiempos_alg[reg['algoritmo']].append(reg['tiempoenms'])
+            tiempos_alg[reg['algoritmo']].append(reg['tiempo_ms'])
         
         ranking = sorted(tiempos_alg.items(), key=lambda x: sum(x[1]) / len(x[1]))
         for i, (alg, tiempos) in enumerate(ranking, 1):
@@ -132,18 +132,18 @@ def generar_comparacion_lenguajes(todos_datos, archivo_salida="ComparacionLengua
             c = cpp_datos.get(clave)
             cs = cs_datos.get(clave)
             
-            p_str = f"{p['tiempoenms']:.4f}" if p else "N/A"
-            j_str = f"{j['tiempoenms']:.4f}" if j else "N/A"
-            ja_str = f"{ja['tiempoenms']:.4f}" if ja else "N/A"
-            c_str = f"{c['tiempoenms']:.4f}" if c else "N/A"
-            cs_str = f"{cs['tiempoenms']:.4f}" if cs else "N/A"
+            p_str = f"{p['tiempo_ms']:.4f}" if p else "N/A"
+            j_str = f"{j['tiempo_ms']:.4f}" if j else "N/A"
+            ja_str = f"{ja['tiempo_ms']:.4f}" if ja else "N/A"
+            c_str = f"{c['tiempo_ms']:.4f}" if c else "N/A"
+            cs_str = f"{cs['tiempo_ms']:.4f}" if cs else "N/A"
             
             tiempos = []
-            if p: tiempos.append(('Python', p['tiempoenms']))
-            if j: tiempos.append(('JavaScript', j['tiempoenms']))
-            if ja: tiempos.append(('Java', ja['tiempoenms']))
-            if c: tiempos.append(('C++', c['tiempoenms']))
-            if cs: tiempos.append(('C#', cs['tiempoenms']))
+            if p: tiempos.append(('Python', p['tiempo_ms']))
+            if j: tiempos.append(('JavaScript', j['tiempo_ms']))
+            if ja: tiempos.append(('Java', ja['tiempo_ms']))
+            if c: tiempos.append(('C++', c['tiempo_ms']))
+            if cs: tiempos.append(('C#', cs['tiempo_ms']))
             
             ganador = min(tiempos, key=lambda x: x[1])[0] if tiempos else "N/A"
             
@@ -155,7 +155,7 @@ def generar_comparacion_lenguajes(todos_datos, archivo_salida="ComparacionLengua
         
         for lenguaje, datos in todos_datos.items():
             if datos:
-                total = sum(d['tiempoenms'] for d in datos)
+                total = sum(d['tiempo_ms'] for d in datos)
                 f.write(f"Tiempo TOTAL {lenguaje}: {total:.4f} ms\n")
         
         f.write("\nMejor Algoritmo segun el lenguaje\n\n")
@@ -163,7 +163,7 @@ def generar_comparacion_lenguajes(todos_datos, archivo_salida="ComparacionLengua
             if datos:
                 tiempos_alg = defaultdict(list)
                 for reg in datos:
-                    tiempos_alg[reg['algoritmo']].append(reg['tiempoenms'])
+                    tiempos_alg[reg['algoritmo']].append(reg['tiempo_ms'])
                 mejor = min(tiempos_alg.items(), key=lambda x: sum(x[1]) / len(x[1]))
                 f.write(f"  {lenguaje}: {mejor[0]} (promedio: {sum(mejor[1])/len(mejor[1]):.4f} ms)\n")
     

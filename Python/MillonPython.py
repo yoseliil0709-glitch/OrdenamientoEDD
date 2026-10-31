@@ -295,11 +295,11 @@ def main():
                     inicio = time.perf_counter()
                     metrics = func(copia)
                     fin = time.perf_counter()
-                    tiempoenms = (fin - inicio) * 1000.0
+                    tiempo_ms = (fin - inicio) * 1000.0
 
-                    linea = f"{n}\t{nombre}\t{estado}\t{tiempoenms:.3f}\t{metrics.comp}\t{metrics.inter}\n"
+                    linea = f"{n}\t{nombre}\t{estado}\t{tiempo_ms:.3f}\t{metrics.comp}\t{metrics.inter}\n"
                     f.write(linea)
-                    print(f"Tamaño: {n} | Algoritmo: {nombre} | Estado: {estado} | Tiempo: {tiempoenms:.3f} ms")
+                    print(f"Tamaño: {n} | Algoritmo: {nombre} | Estado: {estado} | Tiempo: {tiempo_ms:.3f} ms")
 
     print("Ordenamientos de Python ejecutados correctamente")
 

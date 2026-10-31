@@ -383,10 +383,10 @@ int main() {
                     Metrics metrics = func(copia);
                     auto fin = std::chrono::high_resolution_clock::now();
                     std::chrono::duration<double, std::milli> duracion = fin - inicio;
-                    double tiempoenms = duracion.count();
+                    double tiempo_ms = duracion.count();
 
-                    f << n << "\t" << nombre << "\t" << estado << "\t" << tiempoenms << "\t" << metrics.comp << "\t" << metrics.inter << "\n";
-                    std::cout << "Tamaño: " << n << " | Algoritmo: " << nombre << " | Estado: " << estado << " | Tiempo: " << tiempoenms << " ms\n";
+                    f << n << "\t" << nombre << "\t" << estado << "\t" << tiempo_ms << "\t" << metrics.comp << "\t" << metrics.inter << "\n";
+                    std::cout << "Tamaño: " << n << " | Algoritmo: " << nombre << " | Estado: " << estado << " | Tiempo: " << tiempo_ms << " ms\n";
                 }
             }
         }

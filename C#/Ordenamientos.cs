@@ -395,10 +395,10 @@ class Program {
                         Stopwatch stopwatch = Stopwatch.StartNew();
                         Metrics metrics = func(copia);
                         stopwatch.Stop();
-                        double tiempoenms = stopwatch.Elapsed.TotalMilliseconds;
+                        double tiempo_ms = stopwatch.Elapsed.TotalMilliseconds;
 
-                        f.WriteLine($"{n}\t{nombre}\t{estado}\t{tiempoenms}\t{metrics.comp}\t{metrics.inter}");
-                        Console.WriteLine($"Tamaño: {n} | Algoritmo: {nombre} | Estado: {estado} | Tiempo: {tiempoenms} ms");
+                        f.WriteLine($"{n}\t{nombre}\t{estado}\t{tiempo_ms}\t{metrics.comp}\t{metrics.inter}");
+                        Console.WriteLine($"Tamaño: {n} | Algoritmo: {nombre} | Estado: {estado} | Tiempo: {tiempo_ms} ms");
                     }
                 }
             }
