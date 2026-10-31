@@ -1,0 +1,8 @@
+REPORTE DE ORDENAMIENTOSPython
+ESPECIFICACIONES DE HARDWARE
+Sistema Operativo: Windows 11
+Procesador: Intel64 Family 6 Model 122 Stepping 8, GenuineIntel
+Python Versión: 3.14.7
+
+Lenguaje    | Algoritmo   | Tamaño  | Estado    | Tiempo(ms)  | Comparac.   | Intercambio 
+------------------------------------------------------------------------------------------

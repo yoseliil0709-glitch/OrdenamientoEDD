@@ -1,9 +1,7 @@
-========================================================================================
-              REPORTE DE BENCHMARK SIN RESTRICCIONES - JAVASCRIPT (9 ALGORITMOS)          
-========================================================================================
+
+              REPORTE DE ORDENAMIENTOS       
 
 Lenguaje     | Algoritmo    | Tamaño     | Estado       | Tiempo (ms)     | Comparaciones   | Intercambios   
----------------------------------------------------------------------------------------------------------
 JavaScript   | Burbuja      | 100        | Aleatorio    | 1.7563          | 4935            | 2678           
 JavaScript   | HeapSort     | 100        | Aleatorio    | 0.6604          | 1042            | 582            
 JavaScript   | Insercion    | 100        | Aleatorio    | 1.0918          | 2777            | 2678           
